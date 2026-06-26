@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/banner.png" alt="reizan-ansigate" width="100%">
+</p>
+
 # reizan-ansigate
 
 The deterministic ANSI / invisible-Unicode injection scanner for the agent era:
