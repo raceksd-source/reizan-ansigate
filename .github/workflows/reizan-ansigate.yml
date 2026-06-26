@@ -1,0 +1,38 @@
+name: reizan-ansigate
+
+on:
+  pull_request:
+  push:
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install .
+      - name: Scan package files, READMEs, artifacts, and commit messages
+        run: |
+          set -euo pipefail
+          for target in \
+            README.md \
+            pyproject.toml \
+            package.json \
+            package-lock.json \
+            pnpm-lock.yaml \
+            yarn.lock \
+            requirements.txt \
+            uv.lock \
+            poetry.lock \
+            build \
+            dist \
+            artifacts \
+            logs
+          do
+            if [ -e "$target" ]; then
+              reizan-ansigate scan "$target"
+            fi
+          done
+          git log --format=%B -n 50 | reizan-ansigate scan -
